@@ -4,8 +4,10 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
@@ -28,6 +30,7 @@ import net.zuiron.photosynthesis.particle.ModParticles;
 import net.zuiron.photosynthesis.recipe.ModRecipes;
 import net.zuiron.photosynthesis.screen.ModScreenHandlers;
 import net.zuiron.photosynthesis.sound.ModSoundEvents;
+import net.zuiron.photosynthesis.util.CropDataConfig;
 import net.zuiron.photosynthesis.util.ModFlammableBlocks;
 import net.zuiron.photosynthesis.util.ModRegistries;
 import net.zuiron.photosynthesis.util.ModStrippableBlocks;
@@ -175,6 +178,7 @@ public class Photosynthesis implements ModInitializer {
 
 			return ActionResult.SUCCESS;
 		});*/
+		ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new CropDataConfig());
 
 		ModSoundEvents.registerModSounds();
 

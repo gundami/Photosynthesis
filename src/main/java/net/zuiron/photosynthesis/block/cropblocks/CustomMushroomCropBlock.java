@@ -6,6 +6,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
@@ -103,7 +104,7 @@ public class CustomMushroomCropBlock extends CropBlock {
         float f2;
         int i2;
         if(Seasons.isSeasonsEnabled() && world.getBaseLightLevel(pos, 0) < 13 && (i2 = this.getAge(state)) < this.getMaxAge() && random.nextInt((int) (25.0f / (f2 = 7.0f)) + 1) == 0) {
-            CropData cropData = CropData.getCropDataFor(state.getBlock().getTranslationKey());
+            CropData cropData = CropData.getCropDataFor(Registries.ITEM.getId(state.getBlock().asItem()));
             if(cropData != null) {
                 int minAge = cropData.getMinAge(Seasons.getCurrentSeason(world.getTimeOfDay()));
                 int maxAge = cropData.getMaxAge(Seasons.getCurrentSeason(world.getTimeOfDay()));
@@ -131,7 +132,7 @@ public class CustomMushroomCropBlock extends CropBlock {
         //TODO - spread mushroom! IF age is mature. (max)
         if (random.nextInt(25) == 0 && this.getAge(state) == this.getMaxAge()) {
             if(Seasons.isSeasonsEnabled()) {
-                CropData cropData = CropData.getCropDataFor(state.getBlock().getTranslationKey());
+                CropData cropData = CropData.getCropDataFor(Registries.ITEM.getId(state.getBlock().asItem()));
                 int CurSeason = Seasons.getCurrentSeason(world.getTimeOfDay());
                 int harvestSeason = cropData.getHarvestSeason();
                 if(CurSeason != harvestSeason) {

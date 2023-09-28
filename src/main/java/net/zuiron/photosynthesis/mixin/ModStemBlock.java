@@ -1,6 +1,7 @@
 package net.zuiron.photosynthesis.mixin;
 
 import net.minecraft.block.*;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -61,7 +62,7 @@ public abstract class ModStemBlock extends PlantBlock
     public void isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient, CallbackInfoReturnable<Boolean> cir) {
         //disable bonemealing on crops we have cropdata for.
         if(Seasons.isSeasonsEnabled()) {
-            CropData cropData = CropData.getCropDataFor(state.getBlock().getTranslationKey());
+            CropData cropData = CropData.getCropDataFor(Registries.ITEM.getId(state.getBlock().asItem()));
             if(cropData != null) {
                 cir.setReturnValue(false);
                 cir.cancel();
@@ -73,7 +74,7 @@ public abstract class ModStemBlock extends PlantBlock
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         //world.setBlockState(pos, (BlockState)state.cycle(AGE), Block.NOTIFY_LISTENERS);
         if(Seasons.isSeasonsEnabled()) {
-            CropData cropData = CropData.getCropDataFor(state.getBlock().getTranslationKey());
+            CropData cropData = CropData.getCropDataFor(Registries.ITEM.getId(state.getBlock().asItem()));
             if(cropData != null) {
                 int minAge = cropData.getMinAge(Seasons.getCurrentSeason(world.getTimeOfDay()));
                 int maxAge = cropData.getMaxAge(Seasons.getCurrentSeason(world.getTimeOfDay()));

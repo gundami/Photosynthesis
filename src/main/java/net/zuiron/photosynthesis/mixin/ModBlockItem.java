@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;
@@ -16,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.awt.*;
 import java.util.List;
 
 @Mixin(BlockItem.class)
@@ -24,9 +26,7 @@ public abstract class ModBlockItem {
 
     @Inject(method = "appendTooltip", at = @At("HEAD"), cancellable = true)
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context, CallbackInfo ci) {
-        String getBlockStrKey = this.getBlock().getTranslationKey();
-        CropData cropData = CropData.getCropDataFor(getBlockStrKey);
-
+        CropData cropData = CropData.getCropDataFor(Registries.ITEM.getId(this.getBlock().asItem()));
         if(cropData != null && Seasons.isSeasonsEnabled()) {
             String getHarvestSeason = cropData.getHarvestSeasonStr();
             String getPlantSeason = cropData.getPlantSeasonStr();

@@ -9,6 +9,7 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -110,7 +111,7 @@ public class CustomCropBlock2Tall extends CropBlock implements Waterloggable {
         float f2;
         int i2;
         if(Seasons.isSeasonsEnabled() && world.getBaseLightLevel(pos.up(1), 0) >= 9 && (i2 = this.getAge(state)) < this.getMaxAge() && random.nextInt((int) (25.0f / (f2 = 7.0f)) + 1) == 0) {
-            CropData cropData = CropData.getCropDataFor(state.getBlock().getTranslationKey());
+            CropData cropData = CropData.getCropDataFor(Registries.ITEM.getId(state.getBlock().asItem()));
             if(cropData != null) {
                 int minAge = cropData.getMinAge(Seasons.getCurrentSeason(world.getTimeOfDay()));
                 int maxAge = cropData.getMaxAge(Seasons.getCurrentSeason(world.getTimeOfDay()));

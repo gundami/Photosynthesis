@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BoneMealItem;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -125,7 +126,7 @@ public abstract class ModCropBlock extends PlantBlock
     public void isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient, CallbackInfoReturnable<Boolean> cir) {
         //disable bonemealing on crops we have cropdata for.
         if(Seasons.isSeasonsEnabled()) {
-            CropData cropData = CropData.getCropDataFor(state.getBlock().getTranslationKey());
+            CropData cropData = CropData.getCropDataFor(Registries.ITEM.getId(state.getBlock().asItem()));
             if(cropData != null) {
                 cir.setReturnValue(false);
                 cir.cancel();
@@ -140,7 +141,7 @@ public abstract class ModCropBlock extends PlantBlock
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
 
         if(Seasons.isSeasonsEnabled()) {
-            CropData cropData = CropData.getCropDataFor(state.getBlock().getTranslationKey());
+            CropData cropData = CropData.getCropDataFor(Registries.ITEM.getId(state.getBlock().asItem()));
             if(cropData != null) {
                 int minAge = cropData.getMinAge(Seasons.getCurrentSeason(world.getTimeOfDay()));
                 int maxAge = cropData.getMaxAge(Seasons.getCurrentSeason(world.getTimeOfDay()));

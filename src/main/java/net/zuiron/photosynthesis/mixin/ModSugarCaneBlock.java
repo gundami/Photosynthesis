@@ -3,6 +3,7 @@ package net.zuiron.photosynthesis.mixin;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SugarCaneBlock;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
@@ -36,7 +37,7 @@ public abstract class ModSugarCaneBlock extends Block {
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         if (world.isAir(pos.up())) {
             if (Seasons.isSeasonsEnabled()) {
-                CropData cropData = CropData.getCropDataFor(state.getBlock().getTranslationKey());
+                CropData cropData = CropData.getCropDataFor(Registries.ITEM.getId(state.getBlock().asItem()));
                 if (cropData != null) {
                     int minAge = cropData.getMinAge(Seasons.getCurrentSeason(world.getTimeOfDay()));
                     int maxAge = cropData.getMaxAge(Seasons.getCurrentSeason(world.getTimeOfDay()));

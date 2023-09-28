@@ -1,9 +1,12 @@
 package net.zuiron.photosynthesis.api;
 
 import net.minecraft.text.TextColor;
+import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static net.zuiron.photosynthesis.util.CropDataConfig.AllCropConfigMap;
 
 public class CropData {
     private int[] maxAge;
@@ -81,8 +84,13 @@ public class CropData {
         }
     }
 
-    public static Map<String, CropData> cropDataMap = new HashMap<>();
+    public static Map<Identifier, CropData> cropDataMap = new HashMap<>();
     static {
+        AllCropConfigMap.forEach(((identifier, cropConfig) -> {
+            cropDataMap.put(identifier, new CropData(cropConfig.getMaxAge(), cropConfig.getMinAge()));
+        }));
+
+        /*
         //Vanilla                                                       //maxAge Summer, Autumn, Winter, Spring ---- minAge Summer, Autumn, Winter, Spring
         cropDataMap.put("block.minecraft.wheat",                        new CropData(new int[]{7, 1, 2, 5}, new int[]{4, 0, 1, 2}));    //plant autumn, harvest summer.
         cropDataMap.put("block.minecraft.carrots",                      new CropData(new int[]{4, 7, 1, 1}, new int[]{1, 4, 7, 0}));    //plant spring, harvest autumn.
@@ -333,10 +341,11 @@ public class CropData {
         cropDataMap.put("block.photosynthesis.kiwitree_bushcrop",       new CropData(new int[]{2, 7, 0, 1}, new int[]{1, 2, 7, 0}));    //plant spring, harvest autumn.
         //cropDataMap.put("block.photosynthesis.",        new CropData(new int[]{0, 0, 0, 0}, new int[]{0, 0, 0, 0}));
         // add more crops here as needed - crops not added here will grow as per vanilla.
+        */
     }
 
-    public static CropData getCropDataFor(String blockName) {
-        return cropDataMap.get(blockName);
+    public static CropData getCropDataFor(Identifier identifier) {
+        return cropDataMap.get(identifier);
     }
 }
 

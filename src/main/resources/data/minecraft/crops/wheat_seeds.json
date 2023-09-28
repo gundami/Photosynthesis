@@ -1,0 +1,6 @@
+{
+  "maxAge": [7, 1, 2, 5],
+  "minAge": [4, 0, 1, 2],
+  "biomesTemperature": [-0.5,0.1],
+  "biomesHumidity": [-0.2,0,2]
+}
