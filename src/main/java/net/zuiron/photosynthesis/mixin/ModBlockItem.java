@@ -30,12 +30,20 @@ public abstract class ModBlockItem {
         if(cropData != null && Seasons.isSeasonsEnabled()) {
             String getHarvestSeason = cropData.getHarvestSeasonStr();
             String getPlantSeason = cropData.getPlantSeasonStr();
+            String getMaxTemperature = String.valueOf(cropData.getMaxBiomesTemperature());
+            String getMinTemperature = String.valueOf(cropData.getMinBiomesTemperature());
+            String getMaxHumidity = String.valueOf(cropData.getMaxBiomesHumidity());
+            String getMinHumidity = String.valueOf(cropData.getMinBiomesHumidity());
+
 
             TextColor getHarvestSeasonTextColor = cropData.getHarvestSeasonTextColor();
             TextColor getPlantSeasonTextColor = cropData.getPlantSeasonTextColor();
 
             tooltip.add(Text.literal("Plant: ").append(Text.literal(getPlantSeason).styled(style -> style.withColor(getPlantSeasonTextColor))));
             tooltip.add(Text.literal("Harvest: ").append(Text.literal(getHarvestSeason).styled(style -> style.withColor(getHarvestSeasonTextColor))));
+            tooltip.add(Text.literal("Temperature: ").append(Text.literal(getMinTemperature+"-"+getMaxTemperature).styled(style -> style.withColor(0x32CD32))));
+            tooltip.add(Text.literal("Humidity: ").append(Text.literal(getMinHumidity+"-"+getMaxHumidity).styled(style -> style.withColor(0x00CED1))));
+
         }
     }
 }

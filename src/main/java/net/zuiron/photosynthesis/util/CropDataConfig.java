@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.zuiron.photosynthesis.Photosynthesis;
-import net.zuiron.photosynthesis.config.CropConfig;
+import net.zuiron.photosynthesis.api.CropData;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -13,9 +13,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-public class CropDataConfig implements SimpleSynchronousResourceReloadListener {
 
-    public static HashMap<Identifier, CropConfig> AllCropConfigMap = new HashMap<>();
+import static net.zuiron.photosynthesis.api.CropData.cropDataMap;
+
+public class CropDataConfig implements SimpleSynchronousResourceReloadListener {
 
     @Override
     public Identifier getFabricId() {
@@ -58,20 +59,14 @@ public class CropDataConfig implements SimpleSynchronousResourceReloadListener {
                     biomesHumidity[i] = biomesHumidityList.get(i).getAsFloat();
 
 
-                AllCropConfigMap.put(cropIdentifier, new CropConfig(maxAge,minAge,biomesTemperature,biomesHumidity));
+                cropDataMap.put(cropIdentifier, new CropData(maxAge,minAge,biomesTemperature,biomesHumidity));
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            Photosynthesis.LOGGER.info("Crop:"+ cropIdentifier.toString());
-            Photosynthesis.LOGGER.info("|__maxAge:"+ Arrays.toString(AllCropConfigMap.get(cropIdentifier).getMaxAge()));
-            Photosynthesis.LOGGER.info("|__minAge:"+ Arrays.toString(AllCropConfigMap.get(cropIdentifier).getMinAge()));
-            Photosynthesis.LOGGER.info("|__biomes temp:"+Arrays.toString(AllCropConfigMap.get(cropIdentifier).getBiomesTemperature()));
-            Photosynthesis.LOGGER.info("|__biomes humidity:"+Arrays.toString(AllCropConfigMap.get(cropIdentifier).getBiomesHumidity()));
-
         }
-        if(!AllCropConfigMap.isEmpty()) {
-            Photosynthesis.LOGGER.info("Successfully loaded "+AllCropConfigMap.size()+" custom crop configs.");
+        if(!cropDataMap.isEmpty()) {
+            Photosynthesis.LOGGER.info("Successfully loaded "+cropDataMap.size()+" custom crop configs.");
         }else {
             Photosynthesis.LOGGER.info("No crop configs.");
         }

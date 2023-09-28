@@ -6,20 +6,23 @@ import net.minecraft.util.Identifier;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.zuiron.photosynthesis.util.CropDataConfig.AllCropConfigMap;
 
 public class CropData {
     private int[] maxAge;
     private int[] minAge;
+    private float[] biomesTemperature;
+    private float[] biomesHumidity;
 
     TextColor SPRING = TextColor.fromRgb(0xFF64e700);
     TextColor SUMMER = TextColor.fromRgb(0xFFe7e952);
     TextColor AUTUMN = TextColor.fromRgb(0xFFA500);
     TextColor WINTER = TextColor.fromRgb(0xFFebebeb);
 
-    public CropData(int[] maxAge, int[] minAge) {
+    public CropData(int[] maxAge, int[] minAge, float[] biomesTemperature, float[] biomesHumidity) {
         this.maxAge = maxAge;
         this.minAge = minAge;
+        this.biomesTemperature = biomesTemperature;
+        this.biomesHumidity = biomesHumidity;
     }
 
     public int getMaxAge(int season) {
@@ -28,6 +31,20 @@ public class CropData {
 
     public int getMinAge(int season) {
         return minAge[season]; //min crop age to grow in 'season'
+    }
+
+    public float getMinBiomesTemperature() {
+        return biomesTemperature[0]; //min temperature crop can grow
+    }
+    public float getMaxBiomesTemperature() {
+        return biomesTemperature[1];  //max temperature crop can grow
+    }
+    public float getMinBiomesHumidity() {
+        return biomesHumidity[0];   //min humidity crop can grow
+    }
+
+    public float getMaxBiomesHumidity() {
+        return biomesHumidity[1];   //max humidity crop can grow
     }
 
     public int getHarvestSeason() {
@@ -85,10 +102,9 @@ public class CropData {
     }
 
     public static Map<Identifier, CropData> cropDataMap = new HashMap<>();
+
     static {
-        AllCropConfigMap.forEach(((identifier, cropConfig) -> {
-            cropDataMap.put(identifier, new CropData(cropConfig.getMaxAge(), cropConfig.getMinAge()));
-        }));
+
 
         /*
         //Vanilla                                                       //maxAge Summer, Autumn, Winter, Spring ---- minAge Summer, Autumn, Winter, Spring
